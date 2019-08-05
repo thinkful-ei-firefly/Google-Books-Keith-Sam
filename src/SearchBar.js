@@ -3,7 +3,7 @@ import React from 'react';
 function SearchBar(props){
   //takes in setSearch function
   return (
-    <section>
+    <section className = "searchBar">
       <form className = 'Search' onSubmit = {props.setSearch()}>
         <label htmlFor = "search">Search</label>
         <input type = "text" id = "search" required></input>

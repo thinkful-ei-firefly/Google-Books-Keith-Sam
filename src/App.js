@@ -27,7 +27,7 @@ class App extends React.Component{
             title: (item.volumeInfo.title ? item.volumeInfo.title : 'No Title'),
             authors: (item.volumeInfo.authors ? item.volumeInfo.authors : 'No Author'),
             desc: (item.volumeInfo.description ? item.volumeInfo.description : 'No Description') ,
-            price: (item.saleInfo.listPrice ? item.saleInfo.listPrice.amount : item.saleInfo.saleability),
+            price: (item.saleInfo.listPrice ? `$${item.saleInfo.listPrice.amount}` : item.saleInfo.saleability),
             image: (item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.thumbnail : 'https://www.adazing.com/wp-content/uploads/2019/02/open-book-clipart-13-300x300.png')
           };
         });
