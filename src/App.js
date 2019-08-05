@@ -1,5 +1,4 @@
 import React from 'react';
-import logo, { ReactComponent } from './logo.svg';
 import './App.css';
 import SearchBar from './SearchBar';
 import Results from './Results';
@@ -14,27 +13,23 @@ class App extends React.Component{
   }
 
   search = () => {
-      fetch(`${this.state.BASE_URL}q=${this.state.search}`)
+      console.log(this.url())
+      fetch(this.url())
       .then(res => res.json())
       .then(res => {
+        if (res.totalItems === 0) {
+          alert('No Results Found');
+          return;
+        }
+        console.log(res)
         const items = res.items.map(item => {
-          if (item.saleInfo.saleability === "NOT_FOR_SALE"){
-            return {
-              title: item.volumeInfo.title,
-              authors: item.volumeInfo.authors,
-              desc: item.volumeInfo.description,
-              price: 'NOT FOR SALE',
-              image: item.volumeInfo.imageLinks.thumbnail
-            };
-          } else {
-            return {
-              title: item.volumeInfo.title,
-              authors: item.volumeInfo.authors,
-              desc: item.volumeInfo.description,
-              price: item.saleInfo.listPrice.amount,
-              image: item.volumeInfo.imageLinks.thumbnail
-            };
-          }
+          return {
+            title: (item.volumeInfo.title ? item.volumeInfo.title : 'No Title'),
+            authors: (item.volumeInfo.authors ? item.volumeInfo.authors : 'No Author'),
+            desc: (item.volumeInfo.description ? item.volumeInfo.description : 'No Description') ,
+            price: (item.saleInfo.listPrice ? item.saleInfo.listPrice.amount : item.saleInfo.saleability),
+            image: (item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.thumbnail : 'https://www.adazing.com/wp-content/uploads/2019/02/open-book-clipart-13-300x300.png')
+          };
         });
         this.setState({results: items});
       }).catch(err => {
@@ -46,6 +41,20 @@ class App extends React.Component{
     event.preventDefault();
     const term = ($('#search').val());
     this.setState({search: term}, () => this.search());
+  }
+
+  url = () => {
+    const searchTerm = `q=${encodeURIComponent(this.state.search)}`
+    const printFilter = `&printType=${$('#print-type').find(":selected").attr('value')}`
+    let bookFilter
+    if ($('#book-type').find(":selected").attr('value') !== 'false') {
+      bookFilter = `&filter=${$('#book-type').find(":selected").attr('value')}`;
+    } else {
+      bookFilter = ''
+    }
+    return (
+      this.state.BASE_URL + searchTerm + printFilter + bookFilter
+    )
   }
 
 

@@ -6,7 +6,7 @@ function Results(props){
     return (
       <div className="item" key = {index}>
         <h2>{item.title}</h2>
-        <img src = {item.image}/>
+        <img src = {item.image} alt='Book Cover'/>
         <p>{item.desc}</p>
         <p>{item.authors}</p>
         <p>{item.price}</p>
