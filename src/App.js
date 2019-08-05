@@ -13,9 +13,14 @@ class App extends React.Component{
   }
 
   search = () => {
-      console.log(this.url())
       fetch(this.url())
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok){
+          console.log(res);
+          throw new Error("invalid search");
+        }
+        return res.json();
+      })
       .then(res => {
         if (res.totalItems === 0) {
           alert('No Results Found');
@@ -33,13 +38,14 @@ class App extends React.Component{
         });
         this.setState({results: items});
       }).catch(err => {
-        console.log(err);
+        alert(err.message);
       });
   }
 
   setSearch = (event) =>{
     event.preventDefault();
-    const term = ($('#search').val());
+    const term = event.target.search.value;
+    console.log(event.target.search.value);
     this.setState({search: term}, () => this.search());
   }
 

@@ -6,7 +6,7 @@ function SearchBar(props){
     <section className = "searchBar">
       <form className = 'Search' onSubmit = {props.setSearch()}>
         <label htmlFor = "search">Search</label>
-        <input type = "text" id = "search" required></input>
+        <input type = "text" id = "search" name = "search" required></input>
         <div className = "filters">
         <label htmlFor = "book-type">Book Type</label>
         <select id="book-type">
